@@ -2,6 +2,7 @@
 #include <filament/Engine.h>
 #include <filament/Renderer.h>
 #include <filament/View.h>
+#include <iostream>
 
 int main(int argc, char* argv[]) {
   // Change backend to filament::backend::Backend::METAL resolves the issue of
