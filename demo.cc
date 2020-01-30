@@ -1,15 +1,13 @@
 #include <backend/PixelBufferDescriptor.h>
 #include <filament/Engine.h>
 #include <filament/Renderer.h>
+#include <filament/Viewport.h>
 #include <filament/View.h>
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-  // Change backend to filament::backend::Backend::METAL resolves the issue of
-  //   zsh: illegal hardware instruction
-  // but face another issue of:
-  //   -[MTLTextureDescriptorInternal validateWithDevice:]:1249: failed
-  //   assertion `MTLTextureDescriptor has invalid pixelFormat (255).
+  // Change backend to filament::backend::Backend::METAL resolves
+  // the issue of not exiting the program.
 
   // Change to (filament::backend::Backend::METAL) for Metal:
   filament::Engine* pEngine = filament::Engine::create();
