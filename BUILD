@@ -19,7 +19,10 @@ cc_binary(
         "CoreVideo",
     ],
     linkstatic = True,
-    deps = [
-        "@filament",
-    ],
+    deps = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "@filament_mac//:filament",
+        ],
+        "//conditions:default": [],
+    }),
 )
