@@ -12,6 +12,6 @@ demo.o: demo.cc bakedColor.inc
 	$(CC) -Ifilament/include/ -std=c++14 -c demo.cc
 
 clean:
-	rm -f demo demo.o
+	rm -f demo demo.o bakedColor.inc
 
 .PHONY: clean
