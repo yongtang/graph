@@ -6,7 +6,7 @@ demo: demo.o
 	$(CC) -Lfilament/lib/x86_64/ demo.o $(FILAMENT_LIBS) $(FRAMEWORKS) -o demo
 
 bakedColor.inc: bakedColor.mat
-	filament/bin/matc -o bakedColor.inc -f header bakedColor.mat
+	filament/bin/matc -a opengl -a metal -o bakedColor.inc -f header bakedColor.mat
 
 demo.o: demo.cc bakedColor.inc
 	$(CC) -Ifilament/include/ -std=c++14 -c demo.cc
