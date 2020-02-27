@@ -5,7 +5,10 @@ CC=clang++
 demo: demo.o
 	$(CC) -Lfilament/lib/x86_64/ demo.o $(FILAMENT_LIBS) $(FRAMEWORKS) -o demo
 
-demo.o: demo.cc
+bakedColor.inc: bakedColor.mat
+	filament/bin/matc -o bakedColor.inc -f header bakedColor.mat
+
+demo.o: demo.cc bakedColor.inc
 	$(CC) -Ifilament/include/ -std=c++14 -c demo.cc
 
 clean:

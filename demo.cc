@@ -1,16 +1,21 @@
 #include <backend/PixelBufferDescriptor.h>
 #include <filament/Engine.h>
+#include <filament/Material.h>
 #include <filament/Renderer.h>
 #include <filament/Viewport.h>
 #include <filament/View.h>
 #include <iostream>
 
-int main(int argc, char* argv[]) {
-  // Change backend to filament::backend::Backend::METAL resolves
-  // the issue of not exiting the program.
+// matc -o bakedColor.inc -f header bakedColor.mat
+static constexpr uint8_t BAKED_COLOR_PACKAGE[] = {
+    #include "bakedColor.inc"
+};
 
-  // Change to (filament::backend::Backend::METAL) for Metal:
-  filament::Engine* pEngine = filament::Engine::create();
+int main(int argc, char* argv[]) {
+  // Change backend to OpenGL (default) below resolves the issue of crash.
+  //     filament::Engine* pEngine = filament::Engine::create()
+  // Use (filament::backend::Backend::METAL) for Metal to expose the issue.
+  filament::Engine* pEngine = filament::Engine::create(filament::backend::Backend::METAL);
   filament::SwapChain* pSurface = pEngine->createSwapChain(16, 16);
   filament::Renderer* pRenderer = pEngine->createRenderer();
   filament::Scene* pScene = pEngine->createScene();
@@ -24,6 +29,11 @@ int main(int argc, char* argv[]) {
   pView->setClearColor(filament::LinearColorA{1, 0, 0, 1});
   pView->setToneMapping(filament::View::ToneMapping::LINEAR);
   pView->setDithering(filament::View::Dithering::NONE);
+
+  filament::Material* pMaterial = filament::Material::Builder()
+        .package((void*) BAKED_COLOR_PACKAGE, sizeof(BAKED_COLOR_PACKAGE))
+        .build(*pEngine);
+  filament::MaterialInstance* pMaterialInstance = pMaterial->createInstance();
 
   size_t size = 16 * 16 * 4;
   void* buffer = malloc(size);
